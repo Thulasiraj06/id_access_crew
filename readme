@@ -1,0 +1,44 @@
+### 1. **Create a Virtual Environment**
+From your current directory (Example: `experiments`), create a virtual environment:
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment:
+- **Mac/Linux**:
+  ```bash
+  source venv/bin/activate
+  ```
+- **Windows**:
+  ```bash
+  .\venv\Scripts\activate
+  ```
+
+---
+
+### 2. **Install Dependencies**
+Install the required libraries:
+```bash
+pip install fastapi crewai python-dotenv pyyaml uvicorn openai
+  (or)
+pip install -r requirements.txt   (to install requirnements in venv)
+
+
+3.Run code:
+   ''''
+   python main.py
+   ''''
+
+4.(.env):
+''''
+ OPENAI_API_KEY="set your key"
+''''
+
+4.HTTP url To check:
+ ''''
+ http://127.0.0.1:8000/    '(welcome page)'
+ http://127.0.0.1:8000/crews   '(List all crew)'
+ http://127.0.0.1:8000/run_crew/1?topic=sales startegy to seal a book      '( topic to sales crew)'
+ http://127.0.0.1:8000/run_crew/0?topic=Digital Marketing    '(topic to marketing crew)'
+
+ 5

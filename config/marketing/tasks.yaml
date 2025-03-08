@@ -1,0 +1,53 @@
+tasks:
+  - name: research_topic
+    description: Research the latest marketing strategies and trends related to {topic}
+    agent: researcher
+    expected_output: A comprehensive report on the latest marketing strategies and trends related to the topic
+    instructions: |
+      Conduct detailed research on marketing strategies for {topic}.
+      If {topic} is not directly marketing-related, identify marketing angles or applications.
+      Structure your research with these sections:
+        1. Market Overview
+        2. Target Audience Analysis
+        3. Current Trends
+        4. Competitor Strategies
+        5. Marketing Opportunities
+      Include specific statistics and examples whenever possible.
+      End with 3-5 key insights that will be valuable for strategy development.
+    context: []
+    
+  - name: develop_strategy
+    description: Develop a comprehensive marketing strategy based on the research findings for {topic}
+    agent: strategist
+    expected_output: A detailed strategic marketing plan with actionable recommendations
+    instructions: |
+      Create a marketing strategy for {topic} based on the research provided.
+      Your strategy must include these components:
+        1. Executive Summary
+        2. Target Audience Definition (be specific)
+        3. Value Proposition and Positioning
+        4. Marketing Channels and Tactics (with rationale)
+        5. Budget Allocation Recommendations
+        6. Timeline and Implementation Plan
+        7. KPIs and Success Metrics
+      For each recommendation, include a clear rationale and expected outcome.
+      If {topic} seems irrelevant, find marketing applications or politely explain how it could be approached from a marketing perspective.
+    context:
+      - research_topic
+      
+  - name: create_content
+    description: Create engaging marketing content based on the developed strategy for {topic}
+    agent: content_creator
+    expected_output: High-quality, engaging marketing content that implements the strategic recommendations
+    instructions: |
+      Develop actual marketing content examples based on the strategy for {topic}.
+      Include these content types:
+        1. Social Media Posts (3 examples with copy and hashtags)
+        2. Email Marketing Template (subject line + body)
+        3. Landing Page Copy (headline, subheadings, and CTA)
+        4. Content Marketing Outline (blog post or video script)
+      Make the content specific, compelling, and aligned with the target audience needs.
+      Use persuasive language, clear value propositions, and strong calls-to-action.
+      For non-marketing topics, adapt creatively or explain how the topic could be used in marketing content.
+    context:
+      - develop_strategy

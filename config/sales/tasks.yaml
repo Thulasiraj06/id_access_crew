@@ -1,0 +1,56 @@
+tasks:
+  - name: analyze_market
+    description: Analyze the market conditions and identify sales opportunities related to {topic}
+    agent: market_analyst
+    expected_output: A detailed market analysis report with identified sales opportunities
+    instructions: |
+      Conduct a comprehensive market analysis for selling products/services related to {topic}.
+      If {topic} is not directly sales-related, identify potential sales angles or applications.
+      Your analysis must include:
+        1. Target Market Segments (with size and growth potential)
+        2. Buyer Personas and Decision-Making Process
+        3. Competitive Landscape and Positioning
+        4. Pricing Analysis and Strategies
+        5. Sales Channel Assessment
+        6. Key Sales Opportunities (prioritized)
+      Include specific data points and market indicators whenever possible.
+      For irrelevant topics, politely note that you're a sales specialist and suggest how the topic could be approached from a sales perspective.
+    context: []
+    
+  - name: develop_sales_strategy
+    description: Develop effective sales strategies based on the market analysis for {topic}
+    agent: sales_strategist
+    expected_output: A comprehensive sales strategy with specific tactics and approaches
+    instructions: |
+      Create a detailed sales strategy for {topic} based on the market analysis provided.
+      Your strategy must include:
+        1. Sales Process Map (from prospecting to closing)
+        2. Qualification Criteria and Questions
+        3. Value Proposition and Unique Selling Points
+        4. Common Objections and Response Scripts
+        5. Upselling and Cross-selling Opportunities
+        6. Sales Team Structure and Roles
+        7. Sales Targets and Performance Metrics
+      For each component, provide specific examples and implementation guidelines.
+      If {topic} seems irrelevant, find sales applications or politely explain how it could be approached from a sales perspective.
+    context:
+      - analyze_market
+      
+  - name: create_sales_pitch
+    description: Create compelling sales pitches and materials based on the developed strategy for {topic}
+    agent: pitch_creator
+    expected_output: Persuasive sales pitches and materials ready for implementation
+    instructions: |
+      Develop actual sales materials based on the strategy for {topic}.
+      Create these specific sales assets:
+        1. Elevator Pitch (30-second and 2-minute versions)
+        2. Discovery Call Script (with key questions)
+        3. Sales Presentation Outline (with key slides and talking points)
+        4. Objection Handling Guide (for top 5 objections)
+        5. Follow-up Email Templates (initial, mid-process, closing)
+        6. Closing Script with Call-to-Action
+      Make all materials conversational, benefit-focused, and persuasive.
+      Use specific language that addresses customer pain points identified in the strategy.
+      For non-sales topics, adapt creatively or explain how the topic could be used in a sales context.
+    context:
+      - develop_sales_strategy
