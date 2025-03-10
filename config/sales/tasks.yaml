@@ -54,3 +54,25 @@ tasks:
       For non-sales topics, adapt creatively or explain how the topic could be used in a sales context.
     context:
       - develop_sales_strategy
+
+  - name: create_sales_social_content
+    description: Create professional social media content to support sales efforts for {topic}
+    agent: social_selling_specialist
+    expected_output: Platform-specific social media content optimized for sales outreach and lead generation
+    instructions: |
+      Develop professional sales-focused social media content for {topic} based on the sales strategy.
+      Create content for these specific platforms:
+        1. LinkedIn (5 thought leadership posts demonstrating industry expertise)
+        2. Twitter (5 engagement posts with statistics or insights to attract prospects)
+        3. LinkedIn InMail templates (3 personalized outreach messages for different prospect types)
+        4. LinkedIn/Twitter comment templates (for engaging with prospect content)
+      Each piece of content should:
+        - Establish credibility and expertise
+        - Highlight specific pain points and solutions
+        - Include subtle calls-to-action that encourage further engagement
+        - Provide value to prospects (insights, tips, resources)
+        - Be professional, concise, and free of obvious sales language
+      Include recommendations for social selling best practices specific to {topic}.
+      Provide guidelines for sales team members on optimizing their social profiles.
+    context:
+      - develop_sales_strategy

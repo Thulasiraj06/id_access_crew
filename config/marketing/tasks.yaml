@@ -51,3 +51,25 @@ tasks:
       For non-marketing topics, adapt creatively or explain how the topic could be used in marketing content.
     context:
       - develop_strategy
+
+  - name: create_social_posts
+    description: Create platform-specific social media posts to promote {topic}
+    agent: social_media_specialist
+    expected_output: Professional, creative, and engaging social media posts optimized for different platforms
+    instructions: |
+      Create compelling social media posts for {topic} based on the marketing strategy.
+      Develop posts for these specific platforms:
+        1. LinkedIn (3 professional posts with appropriate tone and hashtags)
+        2. Twitter (5 concise, attention-grabbing tweets with relevant hashtags)
+        3. Instagram (3 visual-focused post captions with call-to-action)
+        4. Facebook (3 engagement-focused posts with questions or prompts)
+      Each post should:
+        - Highlight unique value propositions
+        - Include platform-appropriate hashtags
+        - Feature strong calls-to-action
+        - Be optimized for the platform's audience and format
+        - Vary in content type (educational, promotional, testimonial, etc.)
+      Ensure all content is professional yet creative, with compelling hooks and clear messaging.
+      Include posting recommendations (best times, frequency) for maximum reach.
+    context:
+      - develop_strategy

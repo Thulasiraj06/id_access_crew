@@ -2,9 +2,10 @@ import os
 os.environ["CREWAI_TRACKING"] = "false"
 os.environ["PYTHONHTTPSVERIFY"] = "0"
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Body
 from fastapi.responses import JSONResponse
 from typing import Dict, List, Optional
+from pydantic import BaseModel
 from dotenv import load_dotenv
 import yaml
 import importlib
@@ -20,16 +21,20 @@ app = FastAPI(title="CrewAccess API")
 
 # Define available crews
 AVAILABLE_CREWS = [
-    {"id": 0, "name": "marketing_crew", "description": "Access the marketing_crew functionality"},
-    {"id": 1, "name": "sales_crew", "description": "Access the sales_crew functionality"}
+    {"id": 1, "name": "marketing_crew", "description": "Access the marketing_crew functionality"},
+    {"id": 2, "name": "sales_crew", "description": "Access the sales_crew functionality"}
 ]
+
+# Define request model for running a crew
+class CrewRunRequest(BaseModel):
+    topic: str
 
 def get_crew_module(crew_id: int):
     """Get the appropriate crew module based on the crew_id"""
     print("get the crew")
     crew_modules = {
-        0: ("crews.marketing.marketing", "MarketingCrew"),
-        1: ("crews.sales.sales", "SalesCrew")
+        1: ("crews.marketing.marketing", "MarketingCrew"),
+        2: ("crews.sales.sales", "SalesCrew")
     }
     
     if crew_id not in crew_modules:
@@ -52,7 +57,7 @@ async def root():
     return {
         "message": "Welcome to CrewAccess API",
         "available_crews": crew_list,
-        "usage": "To run a crew, use: /run_crew/{crew_id}?topic=your_topic"
+        "usage": "To run a crew, send a POST request to: /crew/{crew_id}/run with a JSON body containing the topic"
     }
 
 @app.get("/crews")
@@ -61,11 +66,27 @@ async def list_crews():
     """List all available crews"""
     return {"crews": AVAILABLE_CREWS}
 
-@app.get("/run_crew/{crew_id}")
-async def run_crew(crew_id: int, topic: Optional[str] = None):
-    """Run a specific crew with the given topic"""
+@app.get("/crews/{crew_id}")
+async def crew_details(crew_id: int):
+    print("show particular crew")
+    """Showing Crew details"""
+    crew_info = next((crew for crew in AVAILABLE_CREWS if crew["id"] == crew_id), None)
+    if not crew_info:
+        return JSONResponse(
+            status_code=404,
+            content={
+                "status": "error",
+                "message": f"No crew found with ID {crew_id}"
+            }
+        )
+    return crew_info
+
+@app.post("/crew/{crew_id}/run")
+async def run_crew(crew_id: int, request: CrewRunRequest):
+    """Run a specific crew with the topic provided in the request body"""
+    print(f"Running crew {crew_id} with topic: {request.topic}")
+    
     # Check if crew_id is valid
-    print("nature of the request id")
     crew_ids = [crew["id"] for crew in AVAILABLE_CREWS]
     if crew_id not in crew_ids:
         crew_list = [f"{crew['id']}: {crew['name']}" for crew in AVAILABLE_CREWS]
@@ -77,12 +98,6 @@ async def run_crew(crew_id: int, topic: Optional[str] = None):
                 "available_crews": crew_list
             }
         )
-    
-    # If no topic is provided, return the crew information
-    if not topic:
-        # Find the specific crew information
-        crew_info = next((crew for crew in AVAILABLE_CREWS if crew["id"] == crew_id), None)
-        return crew_info
     
     # Get the appropriate crew module
     crew_class = get_crew_module(crew_id)
@@ -97,13 +112,13 @@ async def run_crew(crew_id: int, topic: Optional[str] = None):
     
     try:
         # Instantiate and run the crew
-        crew_instance = crew_class(topic)
+        crew_instance = crew_class(request.topic)
         result = crew_instance.run()
         
         return {
             "status": "success",
             "crew_id": crew_id,
-            "topic": topic,
+            "topic": request.topic,
             "result": result
         }
     except Exception as e:
